@@ -47,7 +47,7 @@ jobs:
           jf npmc --repo-deploy=${{ env.NPM_VIRTUAL }} --repo-resolve=${{ env.NPM_VIRTUAL }}
       # NPM Install using the CLI  
       - run: |
-          jf npm install --build-name=${{ env.BUILD_NAME }} --build-number=1.0.${{github.run_number}}
+          jf npm install
       # Add GitHub Data to BuildInfo 
       - run: |
           jf rt build-add-git ${{ env.BUILD_NAME }}  1.0.${{github.run_number}}
@@ -56,7 +56,7 @@ jobs:
           jf rt build-collect-env ${{ env.BUILD_NAME }}  1.0.${{github.run_number}}
       # Using NPM Publish to uplaod the NPM Build
       - run: |
-          jf npm publish --build-name=${{ env.BUILD_NAME }}  --build-number=1.0.${{github.run_number}}
+          jf npm publish
       # Publish the BuildInfo into Artifactory 
       - run: |
           jf rt build-publish ${{ env.BUILD_NAME }}  1.0.${{github.run_number}}
@@ -67,5 +67,5 @@ jobs:
       - run: |
            jf build-scan --fail=false ${{ env.BUILD_NAME }}  1.0.${{github.run_number}}
       # Promote the Build from Dev to Production 
-      - run: |
-          jf rt build-promote ${{ env.BUILD_NAME }} 1.0.${{github.run_number}} ${{ env.PRODUCTION_REPO_NAME }}  --status=production
+      # - run: |
+      #     jf rt build-promote ${{ env.BUILD_NAME }} 1.0.${{github.run_number}} ${{ env.PRODUCTION_REPO_NAME }}  --status=production
