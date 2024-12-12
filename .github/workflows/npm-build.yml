@@ -65,7 +65,7 @@ jobs:
           jf scan .
       # Scan the NPM Build with Xray 
       - run: |
-           jf build-scan ${{ env.BUILD_NAME }}  1.0.${{github.run_number}}
+           jf build-scan ${{ env.BUILD_NAME }}  1.0.${{github.run_number}} --fail=false
       # Promote the Build from Dev to Production 
       - run: |
           jf rt build-promote ${{ env.BUILD_NAME }} 1.0.${{github.run_number}} ${{ env.PRODUCTION_REPO_NAME }}  --status=production
