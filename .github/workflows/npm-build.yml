@@ -15,6 +15,7 @@ jobs:
       NPM_VIRTUAL: ghdemo-npm
       BUILD_NAME: ghdemo-build
       OIDC_INTEGRATION_NAME: github-oidc-integration
+      OIDC_AUDIENCE: jfrog-github
       PRODUCTION_REPO_NAME: npm-prod-local
     defaults:
       run:
@@ -33,6 +34,7 @@ jobs:
           JF_PROJECT: ${{ vars.JF_PROJECT }}
         with:
             oidc-provider-name: ${{ env.OIDC_INTEGRATION_NAME }}
+            oidc-audience: ${{ env.OIDC_AUDIENCE }}
       
       # This command adds a new server configuration to the JFrog CLI   
       - run: |
