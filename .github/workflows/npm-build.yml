@@ -50,13 +50,13 @@ jobs:
           jf npm install --build-name=${{ env.BUILD_NAME }} --build-number=1.0.${{github.run_number}}
       # Add GitHub Data to BuildInfo 
       - run: |
-          jf rt build-add-git --build-name=${{ env.BUILD_NAME }}  1.0.${{github.run_number}}
+          jf rt build-add-git ${{ env.BUILD_NAME }}  1.0.${{github.run_number}}
       # Collect all Environmental information for NPM Build 
       - run: |
-          jf rt build-collect-env --build-name=${{ env.BUILD_NAME }}  1.0.${{github.run_number}}
+          jf rt build-collect-env ${{ env.BUILD_NAME }}  1.0.${{github.run_number}}
       # Using NPM Publish to uplaod the NPM Build
       - run: |
-          jf npm publish --build-name=${{ env.BUILD_NAME }}  --build-number=1.0.${{github.run_number}}
+          jf npm publish ${{ env.BUILD_NAME }}  --build-number=1.0.${{github.run_number}}
       # Publish the BuildInfo into Artifactory 
       - run: |
           jf rt build-publish ${{ env.BUILD_NAME }}  1.0.${{github.run_number}}
