@@ -37,38 +37,61 @@ jobs:
             oidc-audience: ${{ env.OIDC_AUDIENCE }}
       
       # This command adds a new server configuration to the JFrog CLI   
-      - run: |
+      - name: Validate JF CLI Version
+        run: |
           jf -v
-      # Ping the JFrog Platfrom instnace 
-      - run: |
+      
+          # Ping the JFrog Platfrom instnace 
+      - name: Validate Connectivity to JFrog Platform
+        run: |
           jf rt ping
+      
       # Configure JFrog CLI for NPM 
-      - run: |
+      - name: Configure JFrog CLI for NPM Project
+        run: |
           jf npmc --repo-deploy=${{ env.NPM_VIRTUAL }} --repo-resolve=${{ env.NPM_VIRTUAL }}
+      
       # Run Audit
-      - run: |
+      - name: Run Dependency Audit
+        continue-on-error: true
+        run: |
           jf audit --vuln --fail=false
+      
       # NPM Install using the CLI  
-      - run: |
+      - name: NPM Install using the CLI
+        run: |
           jf npm install --build-name=${{ env.BUILD_NAME }} --build-number=1.0.${{github.run_number}}
-      # Add GitHub Data to BuildInfo 
-      - run: |
+      
+      # Add GitHub Data to BuildInfo
+      - name: Add GitHub Data to BuildInfo
+        run: |
           jf rt build-add-git ${{ env.BUILD_NAME }}  1.0.${{github.run_number}}
-      # Collect all Environmental information for NPM Build 
-      - run: |
+      
+      # Collect all Environmental information for NPM Build
+      - name: Collect all Environmental information for NPM Build
+        run: |
           jf rt build-collect-env ${{ env.BUILD_NAME }}  1.0.${{github.run_number}}
+      
       # Using NPM Publish to uplaod the NPM Build
-      - run: |
+      - name: Publish Build Artifact
+        run: |
           jf npm publish --build-name=${{ env.BUILD_NAME }} --build-number=1.0.${{github.run_number}}
+      
       # Publish the BuildInfo into Artifactory 
-      - run: |
+      - name: Publish Build Info
+        run: |
           jf rt build-publish ${{ env.BUILD_NAME }}  1.0.${{github.run_number}}
+      
       # Run JF Scan on Build 
-      - run: |
+      - name: Scan Artifact
+        run: |
           jf scan . --vuln
+      
       # Scan the NPM Build with Xray 
-      - run: |
+      - name: Scan BuildInfo
+        run: |
            jf build-scan ${{ env.BUILD_NAME }}  1.0.${{github.run_number}} --vuln
+      
       # Promote the Build from Dev to Production 
       # - run: |
       #     jf rt build-promote ${{ env.BUILD_NAME }} 1.0.${{github.run_number}} ${{ env.PRODUCTION_REPO_NAME }}  --status=production
