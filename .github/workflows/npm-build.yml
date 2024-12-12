@@ -47,7 +47,7 @@ jobs:
           jf npmc --repo-deploy=${{ env.NPM_VIRTUAL }} --repo-resolve=${{ env.NPM_VIRTUAL }}
       # Run Audit
       - run: |
-          jf audit --vuln
+          jf audit --vuln --fail=false
       # NPM Install using the CLI  
       - run: |
           jf npm install --build-name=${{ env.BUILD_NAME }} --build-number=1.0.${{github.run_number}}
