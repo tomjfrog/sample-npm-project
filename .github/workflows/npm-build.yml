@@ -82,6 +82,12 @@ jobs:
         run: |
           jf rt build-publish ${{ env.BUILD_NAME }}  1.0.${{github.run_number}}
       
+      # Path Triage
+      - name: Path Triage
+        run: |
+          PATH=$(pwd)
+          echo $PATH
+      
       # Run JF Scan on Build 
       - name: Scan Artifact
         run: |
