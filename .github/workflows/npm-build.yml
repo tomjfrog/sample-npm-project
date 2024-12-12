@@ -91,7 +91,7 @@ jobs:
       # Run JF Scan on Build 
       - name: Scan Artifact
         run: |
-          jf scan . --vuln
+          jf scan *.tgz --vuln
       
       # Scan the NPM Build with Xray 
       - name: Scan BuildInfo
