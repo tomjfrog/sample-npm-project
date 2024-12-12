@@ -45,6 +45,9 @@ jobs:
       # Configure JFrog CLI for NPM 
       - run: |
           jf npmc --repo-deploy=${{ env.NPM_VIRTUAL }} --repo-resolve=${{ env.NPM_VIRTUAL }}
+      # Run Audit
+      - run: |
+          jf audit --vuln
       # NPM Install using the CLI  
       - run: |
           jf npm install --build-name=${{ env.BUILD_NAME }} --build-number=1.0.${{github.run_number}}
@@ -62,10 +65,10 @@ jobs:
           jf rt build-publish ${{ env.BUILD_NAME }}  1.0.${{github.run_number}}
       # Run JF Scan on Build 
       - run: |
-          jf scan .
+          jf scan . --vuln
       # Scan the NPM Build with Xray 
       - run: |
-           jf build-scan ${{ env.BUILD_NAME }}  1.0.${{github.run_number}}
+           jf build-scan ${{ env.BUILD_NAME }}  1.0.${{github.run_number}} --vuln
       # Promote the Build from Dev to Production 
       # - run: |
       #     jf rt build-promote ${{ env.BUILD_NAME }} 1.0.${{github.run_number}} ${{ env.PRODUCTION_REPO_NAME }}  --status=production
