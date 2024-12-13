@@ -116,8 +116,7 @@ jobs:
         run: |
           PATH=$(pwd)
           echo $PATH
-          ls -lah
-          find *.tgz .
+
 
       # Path Triage
       - name: Path Triage
