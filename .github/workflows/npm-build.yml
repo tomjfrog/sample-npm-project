@@ -116,6 +116,8 @@ jobs:
         run: |
           PATH=$(pwd)
           echo $PATH
+          LISTING=$(ls -lah)
+          echo $LISTING
       
       # Run JF Scan on NPM Artifact 
       - name: Scan Artifact
