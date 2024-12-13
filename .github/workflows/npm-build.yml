@@ -90,7 +90,7 @@ jobs:
           context: .
           push: false
           build-args: |
-            NPMRC_ENCODED="${{ secrets.NPMRC_ENCODED }}"
+            "NPMRC_ENCODED=${{ secrets.NPMRC_ENCODED }}"
           tags: ${{ env.DOCKER_REGISTRY }}/${{ env.DOCKER_REPOSITORY }}/${{ env.DOCKER_IMAGE_NAME}}:latest
       
       - name: Publish Docker Image
