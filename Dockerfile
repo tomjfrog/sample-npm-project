@@ -7,9 +7,15 @@ WORKDIR /usr/src/app
 # Copy package.json and package-lock.json (if available)
 COPY package*.json ./
 
-COPY node_modules ./
+# Inject Base64-encoded .npmrc content and decode it
+ARG NPMRC_ENCODED
+RUN echo "$NPMRC_ENCODED" | base64 -d > .npmrc
+
 # Install dependencies
-# RUN npm install
+RUN npm install
+
+# Clean up sensitive file
+RUN rm .npmrc
 
 # Copy the rest of the application source code to the container
 COPY . ./

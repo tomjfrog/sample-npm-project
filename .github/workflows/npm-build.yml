@@ -82,19 +82,21 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ steps.setup-cli.outputs.oidc-token }}
       
-      # - name: Build and tag Docker image
-      #   uses: docker/build-push-action@v4
-      #   with:
-      #     context: .
-      #     push: false
-      #     tags: ${{ env.DOCKER_REGISTRY }}/${{ env.DOCKER_REPOSITORY }}/${{ env.DOCKER_IMAGE_NAME}}:latest
+      - name: Build and tag Docker image
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          push: false
+          build-args: 
+              - NPMRC_ENCODED="${{ secrets.NPMRC_ENCODED }}"
+          tags: ${{ env.DOCKER_REGISTRY }}/${{ env.DOCKER_REPOSITORY }}/${{ env.DOCKER_IMAGE_NAME}}:latest
       
-      # - name: Publish Docker Image
-      #   run: |
-      #     jf docker push  \
-      #     --build-name=${{ env.BUILD_NAME }} \
-      #     --build-number=1.0.${{github.run_number}} \
-      #     ${{ env.DOCKER_REGISTRY }}/${{ env.DOCKER_REPOSITORY }}/${{ env.DOCKER_IMAGE_NAME}}:latest
+      - name: Publish Docker Image
+        run: |
+          jf docker push  \
+          --build-name=${{ env.BUILD_NAME }} \
+          --build-number=1.0.${{github.run_number}} \
+          ${{ env.DOCKER_REGISTRY }}/${{ env.DOCKER_REPOSITORY }}/${{ env.DOCKER_IMAGE_NAME}}:latest
       
       # Add GitHub Data to BuildInfo
       # - name: Add GitHub Data to BuildInfo
