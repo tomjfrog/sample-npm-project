@@ -18,7 +18,7 @@ jobs:
       OIDC_AUDIENCE: jfrog-github
       PRODUCTION_REPO_NAME: npm-prod-local
       DOCKER_REGISTRY: tomjfrog.jfrog.io
-      DOCKER_REPOSITORY: ghdemo-docker-app-local
+      DOCKER_REPOSITORY: ghdemo-docker-local
       DOCKER_IMAGE_NAME: ghdemo-image
     defaults:
       run:
