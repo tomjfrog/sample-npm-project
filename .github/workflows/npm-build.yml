@@ -60,10 +60,10 @@ jobs:
       #     jf curation-audit
       
       # Run Audit
-      - name: Run Dependency Audit
-        continue-on-error: true
-        run: |
-          jf audit --vuln --fail=false
+      # - name: Run Dependency Audit
+      #   continue-on-error: true
+      #   run: |
+      #     jf audit --vuln --fail=false
       
       # NPM Install using the CLI  
       - name: NPM Install using the CLI
@@ -77,29 +77,29 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ steps.setup-cli.outputs.oidc-token }}
       
-      - name: Build and tag Docker image
-        uses: docker/build-push-action@v4
-        with:
-          context: .
-          push: false
-          tags: ${{ env.DOCKER_REGISTRY }}/${{ env.DOCKER_REPOSITORY }}/${{ env.DOCKER_IMAGE_NAME}}:latest
+      # - name: Build and tag Docker image
+      #   uses: docker/build-push-action@v4
+      #   with:
+      #     context: .
+      #     push: false
+      #     tags: ${{ env.DOCKER_REGISTRY }}/${{ env.DOCKER_REPOSITORY }}/${{ env.DOCKER_IMAGE_NAME}}:latest
       
-      - name: Publish Docker Image
-        run: |
-          jf docker push  \
-          --build-name=${{ env.BUILD_NAME }} \
-          --build-number=1.0.${{github.run_number}} \
-          ${{ env.DOCKER_REGISTRY }}/${{ env.DOCKER_REPOSITORY }}/${{ env.DOCKER_IMAGE_NAME}}:latest
+      # - name: Publish Docker Image
+      #   run: |
+      #     jf docker push  \
+      #     --build-name=${{ env.BUILD_NAME }} \
+      #     --build-number=1.0.${{github.run_number}} \
+      #     ${{ env.DOCKER_REGISTRY }}/${{ env.DOCKER_REPOSITORY }}/${{ env.DOCKER_IMAGE_NAME}}:latest
       
       # Add GitHub Data to BuildInfo
-      - name: Add GitHub Data to BuildInfo
-        run: |
-          jf rt build-add-git ${{ env.BUILD_NAME }}  1.0.${{github.run_number}}
+      # - name: Add GitHub Data to BuildInfo
+      #   run: |
+      #     jf rt build-add-git ${{ env.BUILD_NAME }}  1.0.${{github.run_number}}
       
       # Collect all Environmental information for NPM Build
-      - name: Collect all Environmental information for NPM Build
-        run: |
-          jf rt build-collect-env ${{ env.BUILD_NAME }}  1.0.${{github.run_number}}
+      # - name: Collect all Environmental information for NPM Build
+      #   run: |
+      #     jf rt build-collect-env ${{ env.BUILD_NAME }}  1.0.${{github.run_number}}
       
       # Using NPM Publish to uplaod the NPM Build
       - name: Publish Build Artifact
@@ -107,15 +107,21 @@ jobs:
           jf npm publish --build-name=${{ env.BUILD_NAME }} --build-number=1.0.${{github.run_number}}
       
       # Publish the BuildInfo into Artifactory 
-      - name: Publish Build Info
-        run: |
-          jf rt build-publish ${{ env.BUILD_NAME }}  1.0.${{github.run_number}}
+      # - name: Publish Build Info
+      #   run: |
+      #     jf rt build-publish ${{ env.BUILD_NAME }}  1.0.${{github.run_number}}
       
       # Path Triage
       - name: Path Triage
         run: |
           PATH=$(pwd)
           echo $PATH
+          ls -lah
+          find *.tgz .
+
+      # Path Triage
+      - name: Path Triage
+        run: |
           ls -lah
       
       # Run JF Scan on NPM Artifact 
