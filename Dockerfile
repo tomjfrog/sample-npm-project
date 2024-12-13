@@ -1,5 +1,5 @@
 # Use the official Node.js 18 image as the base image
-FROM node:18
+FROM tomjfrog.jfrog.io/dockerhub-remote/node:18-slim
 
 # Set the working directory in the container
 WORKDIR /usr/src/app
@@ -7,8 +7,9 @@ WORKDIR /usr/src/app
 # Copy package.json and package-lock.json (if available)
 COPY package*.json ./
 
+COPY node_modules ./
 # Install dependencies
-RUN npm install
+# RUN npm install
 
 # Copy the rest of the application source code to the container
 COPY . ./
