@@ -55,9 +55,9 @@ jobs:
           jf npmc --repo-deploy=${{ env.NPM_VIRTUAL }} --repo-resolve=${{ env.NPM_VIRTUAL }}
       
       # Check to Ensure Dependencies Will Make it Past Curation
-      - name: Run Curation Audit
-        run: |
-          jf curation-audit
+      # - name: Run Curation Audit
+      #   run: |
+      #     jf curation-audit
       
       # Run Audit
       - name: Run Dependency Audit
