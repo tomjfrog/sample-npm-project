@@ -1,7 +1,7 @@
 name: Push NPM Build to Artifactory
 on: 
   workflow_dispatch:
-    
+
 permissions:
   actions: read # for detecting the Github Actions environment.
   id-token: write # for creating OIDC tokens for signing.
@@ -89,8 +89,8 @@ jobs:
         with:
           context: .
           push: false
-          build-args: 
-              - NPMRC_ENCODED="${{ secrets.NPMRC_ENCODED }}"
+          build-args: |
+            NPMRC_ENCODED="${{ secrets.NPMRC_ENCODED }}"
           tags: ${{ env.DOCKER_REGISTRY }}/${{ env.DOCKER_REPOSITORY }}/${{ env.DOCKER_IMAGE_NAME}}:latest
       
       - name: Publish Docker Image
